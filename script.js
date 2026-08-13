@@ -1,34 +1,23 @@
-// ========================================
-// MANGALMURTI LIGHTS
-// WEBSITE + GOOGLE SHEET + WHATSAPP
-// ========================================
-
-
-// WhatsApp Number
 const WHATSAPP_NUMBER = "918097942243";
 
-
-// Google Apps Script Web App URL
 const GOOGLE_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbwfoD8qYCEN27GalB1LLzgIMXEmxHR_Zke8uHuybggrt_Ihv34YYmy3YquEjkUyVjRR/exec";
+"https://script.google.com/macros/s/AKfycbwfoD8qYCEN27GalB1LLzgIMXEmxHR_Zke8uHuybggrt_Ihv34YYmy3YquEjkUyVjRR/exec";
 
-
-// Cart
 let cart = [];
 
 
-// ========================================
+// ===============================
 // ORDER ID
-// ========================================
+// ===============================
 
 function generateOrderId() {
 
-  const now = new Date();
+  const d = new Date();
 
   const date =
-    now.getFullYear().toString().slice(-2) +
-    String(now.getMonth() + 1).padStart(2, "0") +
-    String(now.getDate()).padStart(2, "0");
+    d.getFullYear().toString().slice(-2) +
+    String(d.getMonth() + 1).padStart(2, "0") +
+    String(d.getDate()).padStart(2, "0");
 
   const random =
     Math.floor(1000 + Math.random() * 9000);
@@ -37,9 +26,9 @@ function generateOrderId() {
 }
 
 
-// ========================================
-// BUY PRODUCT
-// ========================================
+// ===============================
+// BUY
+// ===============================
 
 function buy(productName, price) {
 
@@ -70,23 +59,19 @@ function buy(productName, price) {
 }
 
 
-// ========================================
+// ===============================
 // WHATSAPP ENQUIRY
-// ========================================
+// ===============================
 
 function custom(productName) {
 
   const message =
 `✨ *Mangalmurti Lights - Product Enquiry*
 
-मला खालील product बद्दल माहिती हवी आहे:
-
 📦 Product:
 ${productName}
 
-कृपया price, availability आणि delivery बद्दल माहिती द्या.
-
-धन्यवाद.`;
+कृपया price, availability आणि delivery बद्दल माहिती द्या.`;
 
   const url =
     "https://wa.me/" +
@@ -98,9 +83,9 @@ ${productName}
 }
 
 
-// ========================================
-// UPDATE CART
-// ========================================
+// ===============================
+// CART
+// ===============================
 
 function updateCart() {
 
@@ -113,24 +98,17 @@ function updateCart() {
   const totalBox =
     document.getElementById("total");
 
-
   if (cart.length === 0) {
 
-    cartBox.innerHTML =
-      "Cart रिकामी आहे.";
-
+    cartBox.innerHTML = "Cart रिकामी आहे.";
     cartCount.innerText = "0";
-
     totalBox.innerText = "₹0";
 
     return;
   }
 
-
   let total = 0;
-
   let html = "";
-
 
   cart.forEach((item, index) => {
 
@@ -139,15 +117,12 @@ function updateCart() {
 
     total += itemTotal;
 
-
     html += `
       <div class="cart-item">
 
         <div>
           <b>${item.name}</b>
-
           <br>
-
           ₹${item.price.toLocaleString("en-IN")}
           × ${item.qty}
         </div>
@@ -156,22 +131,19 @@ function updateCart() {
 
           <button
             type="button"
-            onclick="decreaseItem(${index})"
-          >
+            onclick="decreaseItem(${index})">
             −
           </button>
 
           <button
             type="button"
-            onclick="increaseItem(${index})"
-          >
+            onclick="increaseItem(${index})">
             +
           </button>
 
           <button
             type="button"
-            onclick="removeItem(${index})"
-          >
+            onclick="removeItem(${index})">
             ❌
           </button>
 
@@ -179,9 +151,7 @@ function updateCart() {
 
       </div>
     `;
-
   });
-
 
   cartBox.innerHTML = html;
 
@@ -196,10 +166,6 @@ function updateCart() {
 }
 
 
-// ========================================
-// INCREASE
-// ========================================
-
 function increaseItem(index) {
 
   cart[index].qty++;
@@ -207,10 +173,6 @@ function increaseItem(index) {
   updateCart();
 }
 
-
-// ========================================
-// DECREASE
-// ========================================
 
 function decreaseItem(index) {
 
@@ -221,16 +183,11 @@ function decreaseItem(index) {
   } else {
 
     cart.splice(index, 1);
-
   }
 
   updateCart();
 }
 
-
-// ========================================
-// REMOVE
-// ========================================
 
 function removeItem(index) {
 
@@ -240,53 +197,59 @@ function removeItem(index) {
 }
 
 
-// ========================================
-// SEND ORDER TO GOOGLE SHEET
-// ========================================
+// ===============================
+// SAVE TO GOOGLE SHEET
+// ===============================
 
-async function saveOrderToGoogleSheet(orderData) {
+function saveOrderToGoogleSheet(data) {
 
-  try {
+  const form =
+    document.createElement("form");
 
-    await fetch(
-      GOOGLE_SCRIPT_URL,
-      {
-        method: "POST",
+  form.method = "POST";
 
-        mode: "no-cors",
+  form.action = GOOGLE_SCRIPT_URL;
 
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8"
-        },
+  form.target = "googleSheetFrame";
 
-        body: JSON.stringify(orderData)
-      }
-    );
+  form.style.display = "none";
 
-    return true;
 
-  } catch (error) {
+  Object.keys(data).forEach(key => {
 
-    console.error(
-      "Google Sheet Error:",
-      error
-    );
+    const input =
+      document.createElement("input");
 
-    return false;
-  }
+    input.type = "hidden";
+
+    input.name = key;
+
+    input.value = data[key];
+
+    form.appendChild(input);
+  });
+
+
+  document.body.appendChild(form);
+
+  form.submit();
+
+  setTimeout(() => {
+
+    form.remove();
+
+  }, 3000);
 }
 
 
-// ========================================
+// ===============================
 // SUBMIT ORDER
-// ========================================
+// ===============================
 
-async function submitOrder(event) {
+function submitOrder(event) {
 
   event.preventDefault();
 
-
-  // Check cart
 
   if (cart.length === 0) {
 
@@ -297,8 +260,6 @@ async function submitOrder(event) {
     return;
   }
 
-
-  // Customer details
 
   const name =
     document
@@ -335,8 +296,6 @@ async function submitOrder(event) {
       .trim();
 
 
-  // Phone validation
-
   if (!/^[6-9][0-9]{9}$/.test(phone)) {
 
     alert(
@@ -346,8 +305,6 @@ async function submitOrder(event) {
     return;
   }
 
-
-  // Pincode validation
 
   if (!/^[0-9]{6}$/.test(pin)) {
 
@@ -359,8 +316,6 @@ async function submitOrder(event) {
   }
 
 
-  // Order ID
-
   const orderId =
     generateOrderId();
 
@@ -371,62 +326,48 @@ async function submitOrder(event) {
       "Order ID: " + orderId;
 
 
-  // Total
-
   let total = 0;
-
-  cart.forEach(item => {
-
-    total +=
-      item.price * item.qty;
-
-  });
-
-
-  // Product text
-
-  let productText = "";
-
-  let sheetProductText = "";
-
   let totalQty = 0;
+
+  let whatsappProducts = "";
+  let sheetProducts = "";
 
 
   cart.forEach((item, index) => {
 
+    const amount =
+      item.price * item.qty;
+
+    total += amount;
+
     totalQty += item.qty;
 
 
-    const itemAmount =
-      item.price * item.qty;
-
-
-    productText +=
+    whatsappProducts +=
 `📦 *Product ${index + 1}:*
 ${item.name}
 
 💰 Price: ₹${item.price.toLocaleString("en-IN")}
 🔢 Quantity: ${item.qty}
-💵 Amount: ₹${itemAmount.toLocaleString("en-IN")}
+💵 Amount: ₹${amount.toLocaleString("en-IN")}
 
 `;
 
 
-    sheetProductText +=
-      `${item.name} × ${item.qty}`;
+    sheetProducts +=
+      item.name + " × " + item.qty;
 
     if (index < cart.length - 1) {
 
-      sheetProductText += " | ";
-
+      sheetProducts += " | ";
     }
 
   });
 
 
-  // ========================================
-  // DATA FOR GOOGLE SHEET
-  // ========================================
+  // ===============================
+  // GOOGLE SHEET DATA
+  // ===============================
 
   const orderData = {
 
@@ -442,7 +383,7 @@ ${item.name}
 
     pin: pin,
 
-    product: sheetProductText,
+    product: sheetProducts,
 
     qty: totalQty,
 
@@ -451,28 +392,26 @@ ${item.name}
   };
 
 
-  // ========================================
   // SAVE TO GOOGLE SHEET
-  // ========================================
 
   saveOrderToGoogleSheet(orderData);
 
 
-  // ========================================
-  // WHATSAPP MESSAGE
-  // ========================================
+  // ===============================
+  // WHATSAPP
+  // ===============================
 
   const message =
 `🛒 *NEW COD ORDER*
 
 🏪 *Mangalmurti Lights*
 
-🆔 *Order ID:*
+🆔 Order ID:
 ${orderId}
 
 ━━━━━━━━━━━━━━
 
-${productText}
+${whatsappProducts}
 
 ━━━━━━━━━━━━━━
 
@@ -506,7 +445,6 @@ ${pin}
 *Mangalmurti Lights*`;
 
 
-
   const whatsappURL =
     "https://wa.me/" +
     WHATSAPP_NUMBER +
@@ -514,18 +452,23 @@ ${pin}
     encodeURIComponent(message);
 
 
-  // Open WhatsApp
-
   window.open(
     whatsappURL,
     "_blank"
   );
 
+
+  // Clear cart after order
+
+  cart = [];
+
+  updateCart();
+
 }
 
 
-// ========================================
+// ===============================
 // INITIALIZE
-// ========================================
+// ===============================
 
 updateCart();
