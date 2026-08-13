@@ -5,13 +5,7 @@ const GOOGLE_SCRIPT_URL =
 
 let cart = [];
 
-
-// ===============================
-// ORDER ID
-// ===============================
-
 function generateOrderId() {
-
   const d = new Date();
 
   const date =
@@ -25,43 +19,27 @@ function generateOrderId() {
   return "ML" + date + random;
 }
 
-
-// ===============================
-// BUY
-// ===============================
-
 function buy(productName, price) {
 
   const existing =
     cart.find(item => item.name === productName);
 
   if (existing) {
-
     existing.qty++;
-
   } else {
-
     cart.push({
       name: productName,
       price: price,
       qty: 1
     });
-
   }
 
   updateCart();
 
-  document
-    .getElementById("order")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
+  document.getElementById("order").scrollIntoView({
+    behavior: "smooth"
+  });
 }
-
-
-// ===============================
-// WHATSAPP ENQUIRY
-// ===============================
 
 function custom(productName) {
 
@@ -73,19 +51,14 @@ ${productName}
 
 कृपया price, availability आणि delivery बद्दल माहिती द्या.`;
 
-  const url =
+  window.open(
     "https://wa.me/" +
     WHATSAPP_NUMBER +
     "?text=" +
-    encodeURIComponent(message);
-
-  window.open(url, "_blank");
+    encodeURIComponent(message),
+    "_blank"
+  );
 }
-
-
-// ===============================
-// CART
-// ===============================
 
 function updateCart() {
 
@@ -121,32 +94,20 @@ function updateCart() {
       <div class="cart-item">
 
         <div>
-          <b>${item.name}</b>
-          <br>
+          <b>${item.name}</b><br>
           ₹${item.price.toLocaleString("en-IN")}
           × ${item.qty}
         </div>
 
         <div>
+          <button type="button"
+            onclick="decreaseItem(${index})">−</button>
 
-          <button
-            type="button"
-            onclick="decreaseItem(${index})">
-            −
-          </button>
+          <button type="button"
+            onclick="increaseItem(${index})">+</button>
 
-          <button
-            type="button"
-            onclick="increaseItem(${index})">
-            +
-          </button>
-
-          <button
-            type="button"
-            onclick="removeItem(${index})">
-            ❌
-          </button>
-
+          <button type="button"
+            onclick="removeItem(${index})">❌</button>
         </div>
 
       </div>
@@ -165,41 +126,31 @@ function updateCart() {
     "₹" + total.toLocaleString("en-IN");
 }
 
-
 function increaseItem(index) {
-
   cart[index].qty++;
-
   updateCart();
 }
-
 
 function decreaseItem(index) {
 
   if (cart[index].qty > 1) {
-
     cart[index].qty--;
-
   } else {
-
     cart.splice(index, 1);
   }
 
   updateCart();
 }
 
-
 function removeItem(index) {
-
   cart.splice(index, 1);
-
   updateCart();
 }
 
 
-// ===============================
-// SAVE TO GOOGLE SHEET
-// ===============================
+/* =================================
+   GOOGLE SHEET
+================================= */
 
 function saveOrderToGoogleSheet(data) {
 
@@ -207,100 +158,67 @@ function saveOrderToGoogleSheet(data) {
     document.createElement("form");
 
   form.method = "POST";
-
   form.action = GOOGLE_SCRIPT_URL;
-
   form.target = "googleSheetFrame";
 
   form.style.display = "none";
 
-
-  Object.keys(data).forEach(key => {
+  Object.entries(data).forEach(([key, value]) => {
 
     const input =
       document.createElement("input");
 
     input.type = "hidden";
-
     input.name = key;
-
-    input.value = data[key];
+    input.value = value;
 
     form.appendChild(input);
   });
-
 
   document.body.appendChild(form);
 
   form.submit();
 
   setTimeout(() => {
-
     form.remove();
-
-  }, 3000);
+  }, 5000);
 }
 
 
-// ===============================
-// SUBMIT ORDER
-// ===============================
+/* =================================
+   SUBMIT ORDER
+================================= */
 
 function submitOrder(event) {
 
   event.preventDefault();
 
-
   if (cart.length === 0) {
 
-    alert(
-      "कृपया आधी Product select करा."
-    );
+    alert("कृपया आधी Product select करा.");
 
     return;
   }
 
-
   const name =
-    document
-      .getElementById("name")
-      .value
-      .trim();
-
+    document.getElementById("name").value.trim();
 
   const phone =
-    document
-      .getElementById("phone")
-      .value
-      .trim();
-
+    document.getElementById("phone").value.trim();
 
   const address =
-    document
-      .getElementById("address")
-      .value
-      .trim();
-
+    document.getElementById("address").value.trim();
 
   const city =
-    document
-      .getElementById("city")
-      .value
-      .trim();
-
+    document.getElementById("city").value.trim();
 
   const pin =
-    document
-      .getElementById("pin")
-      .value
-      .trim();
+    document.getElementById("pin").value.trim();
 
 
   if (!/^[6-9][0-9]{9}$/.test(phone)) {
 
-    alert(
-      "कृपया योग्य 10 digit mobile number टाका."
-    );
+    alert("कृपया योग्य 10 digit mobile number टाका.");
 
     return;
   }
@@ -308,9 +226,7 @@ function submitOrder(event) {
 
   if (!/^[0-9]{6}$/.test(pin)) {
 
-    alert(
-      "कृपया योग्य 6 digit pincode टाका."
-    );
+    alert("कृपया योग्य 6 digit pincode टाका.");
 
     return;
   }
@@ -319,11 +235,8 @@ function submitOrder(event) {
   const orderId =
     generateOrderId();
 
-
-  document
-    .getElementById("orderId")
-    .innerText =
-      "Order ID: " + orderId;
+  document.getElementById("orderId").innerText =
+    "Order ID: " + orderId;
 
 
   let total = 0;
@@ -339,7 +252,6 @@ function submitOrder(event) {
       item.price * item.qty;
 
     total += amount;
-
     totalQty += item.qty;
 
 
@@ -358,48 +270,30 @@ ${item.name}
       item.name + " × " + item.qty;
 
     if (index < cart.length - 1) {
-
       sheetProducts += " | ";
     }
 
   });
 
 
-  // ===============================
-  // GOOGLE SHEET DATA
-  // ===============================
+  /* SAVE TO GOOGLE SHEET */
 
-  const orderData = {
+  saveOrderToGoogleSheet({
 
     orderId: orderId,
-
     name: name,
-
     phone: phone,
-
     address: address,
-
     city: city,
-
     pin: pin,
-
     product: sheetProducts,
-
     qty: totalQty,
-
     amount: total
 
-  };
+  });
 
 
-  // SAVE TO GOOGLE SHEET
-
-  saveOrderToGoogleSheet(orderData);
-
-
-  // ===============================
-  // WHATSAPP
-  // ===============================
+  /* WHATSAPP */
 
   const message =
 `🛒 *NEW COD ORDER*
@@ -458,17 +352,10 @@ ${pin}
   );
 
 
-  // Clear cart after order
-
   cart = [];
 
   updateCart();
-
 }
 
-
-// ===============================
-// INITIALIZE
-// ===============================
 
 updateCart();
