@@ -24,7 +24,6 @@
 </header>
 
 
-<!-- HERO -->
 <section class="hero">
   <div>
     <small>🇮🇳 ALL INDIA DELIVERY • COD</small>
@@ -52,7 +51,6 @@
 </section>
 
 
-<!-- PRODUCTS -->
 <section id="products">
 
   <small>OUR PRODUCTS</small>
@@ -60,48 +58,38 @@
 
   <div class="grid">
 
-    <!-- PRODUCT 1 -->
     <article>
       <div class="pic">✨</div>
 
       <div class="body">
-
         <label>BEST SELLER</label>
 
         <h3>Pixel LED Toran 4×50</h3>
 
-        <p>
-          4 × 50 ft • Waterproof • Decoration Light
-        </p>
+        <p>4 × 50 ft • Waterproof • Decoration Light</p>
 
         <h3>₹3,500</h3>
 
         <button onclick="buy('Pixel LED Toran 4×50',3500)">
           Buy Now
         </button>
-
       </div>
     </article>
 
 
-    <!-- PRODUCT 2 -->
     <article>
       <div class="pic">🌟</div>
 
       <div class="body">
-
         <label>NEW</label>
 
         <h3>Pixel LED Toran 4×60</h3>
 
-        <p>
-          Premium LED Decoration • Custom Designs
-        </p>
+        <p>Premium LED Decoration • Custom Designs</p>
 
         <button onclick="custom('Pixel LED Toran 4×60')">
           WhatsApp Enquiry
         </button>
-
       </div>
     </article>
 
@@ -110,52 +98,40 @@
 
   <div class="grid more-products">
 
-    <!-- PRODUCT 3 -->
     <article>
-
       <div class="pic">💫</div>
 
       <div class="body">
-
         <label>POPULAR</label>
 
         <h3>Pixel Toran 4×60</h3>
 
-        <p>
-          Bright LED decoration light
-        </p>
+        <p>Bright LED decoration light</p>
 
         <h3>₹3,800</h3>
 
         <button onclick="buy('Pixel Toran 4×60',3800)">
           Buy Now
         </button>
-
       </div>
     </article>
 
 
-    <!-- PRODUCT 4 -->
     <article>
-
       <div class="pic">🏠</div>
 
       <div class="body">
-
         <label>HOME DECOR</label>
 
         <h3>LED Decoration Set</h3>
 
-        <p>
-          घर आणि दुकानासाठी
-        </p>
+        <p>घर आणि दुकानासाठी</p>
 
         <h3>₹2,800</h3>
 
         <button onclick="buy('LED Decoration Set',2800)">
           Buy Now
         </button>
-
       </div>
     </article>
 
@@ -164,7 +140,6 @@
 </section>
 
 
-<!-- WHY US -->
 <section class="why">
 
   <small>WHY US</small>
@@ -173,32 +148,16 @@
 
   <div class="features">
 
-    <div>
-      🚚
-      <b>All India Delivery</b>
-    </div>
-
-    <div>
-      💵
-      <b>Cash on Delivery</b>
-    </div>
-
-    <div>
-      💬
-      <b>WhatsApp Order</b>
-    </div>
-
-    <div>
-      ✨
-      <b>Quality Lights</b>
-    </div>
+    <div>🚚<b>All India Delivery</b></div>
+    <div>💵<b>Cash on Delivery</b></div>
+    <div>💬<b>WhatsApp Order</b></div>
+    <div>✨<b>Quality Lights</b></div>
 
   </div>
 
 </section>
 
 
-<!-- ORDER -->
 <section id="order" class="order">
 
   <div>
@@ -217,24 +176,17 @@
 
   <form onsubmit="submitOrder(event)">
 
-    <!-- ORDER ID -->
     <div id="orderId" class="orderid"></div>
 
-
-    <!-- CART -->
     <div id="cart">
       Cart रिकामी आहे.
     </div>
-
-
-    <!-- CUSTOMER DETAILS -->
 
     <input
       id="name"
       required
       placeholder="Customer Name"
     >
-
 
     <input
       id="phone"
@@ -244,13 +196,11 @@
       placeholder="Mobile Number"
     >
 
-
     <textarea
       id="address"
       required
       placeholder="Full Delivery Address"
     ></textarea>
-
 
     <div class="row">
 
@@ -270,21 +220,12 @@
 
     </div>
 
-
-    <!-- TOTAL -->
-
     <div class="total">
       Total COD:
       <b id="total">₹0</b>
     </div>
 
-
-    <!-- WHATSAPP ORDER BUTTON -->
-
-    <button
-      type="submit"
-      class="full"
-    >
+    <button type="submit" class="full">
       WhatsApp वर Order पाठवा
     </button>
 
@@ -293,381 +234,25 @@
 </section>
 
 
-<!-- CONTACT -->
 <footer id="contact">
 
   <b>Mangalmurti Lights</b>
 
-  <p>
-    LED Toran & Decoration Lights
-  </p>
+  <p>LED Toran & Decoration Lights</p>
 
   <p>
     📞 WhatsApp:
-    <a
-      href="https://wa.me/918097942243"
-      target="_blank"
-    >
+    <a href="https://wa.me/918097942243" target="_blank">
       +91 8097942243
     </a>
   </p>
 
-  <small>
-    © 2026 Mangalmurti Lights
-  </small>
+  <small>© 2026 Mangalmurti Lights</small>
 
 </footer>
 
 
-<script>
-
-
-// ========================================
-// WHATSAPP NUMBER
-// ========================================
-
-const WHATSAPP_NUMBER = "918097942243";
-
-
-// ========================================
-// CART
-// ========================================
-
-let cart = [];
-
-
-// ========================================
-// ORDER ID
-// ========================================
-
-function generateOrderId() {
-
-  const now = new Date();
-
-  const date =
-    now.getFullYear().toString().slice(-2) +
-    String(now.getMonth() + 1).padStart(2, "0") +
-    String(now.getDate()).padStart(2, "0");
-
-  const random =
-    Math.floor(1000 + Math.random() * 9000);
-
-  return "ML" + date + random;
-}
-
-
-// ========================================
-// BUY PRODUCT
-// ========================================
-
-function buy(productName, price) {
-
-  cart.push({
-    name: productName,
-    price: price,
-    qty: 1
-  });
-
-  updateCart();
-
-  document
-    .getElementById("order")
-    .scrollIntoView({
-      behavior: "smooth"
-    });
-}
-
-
-// ========================================
-// CUSTOM PRODUCT ENQUIRY
-// ========================================
-
-function custom(productName) {
-
-  const message =
-`✨ *Mangalmurti Lights - Product Enquiry*
-
-मला खालील product बद्दल माहिती हवी आहे:
-
-📦 Product:
-${productName}
-
-कृपया price, availability आणि delivery बद्दल माहिती द्या.`;
-
-  const url =
-    "https://wa.me/" +
-    WHATSAPP_NUMBER +
-    "?text=" +
-    encodeURIComponent(message);
-
-  window.open(url, "_blank");
-}
-
-
-// ========================================
-// UPDATE CART
-// ========================================
-
-function updateCart() {
-
-  const cartBox =
-    document.getElementById("cart");
-
-  const cartCount =
-    document.getElementById("cartCount");
-
-  const totalBox =
-    document.getElementById("total");
-
-
-  if (cart.length === 0) {
-
-    cartBox.innerHTML =
-      "Cart रिकामी आहे.";
-
-    cartCount.innerText = "0";
-
-    totalBox.innerText = "₹0";
-
-    return;
-  }
-
-
-  let total = 0;
-  let html = "";
-
-
-  cart.forEach((item, index) => {
-
-    const itemTotal =
-      item.price * item.qty;
-
-    total += itemTotal;
-
-
-    html += `
-      <div class="cart-item">
-
-        <b>${item.name}</b>
-
-        <div>
-          ₹${item.price.toLocaleString("en-IN")}
-          × ${item.qty}
-
-          <button
-            type="button"
-            onclick="removeItem(${index})"
-          >
-            ❌
-          </button>
-
-        </div>
-
-      </div>
-    `;
-
-  });
-
-
-  cartBox.innerHTML = html;
-
-  cartCount.innerText = cart.length;
-
-  totalBox.innerText =
-    "₹" + total.toLocaleString("en-IN");
-}
-
-
-// ========================================
-// REMOVE ITEM
-// ========================================
-
-function removeItem(index) {
-
-  cart.splice(index, 1);
-
-  updateCart();
-}
-
-
-// ========================================
-// SUBMIT ORDER
-// ========================================
-
-function submitOrder(event) {
-
-  event.preventDefault();
-
-
-  // CHECK CART
-
-  if (cart.length === 0) {
-
-    alert(
-      "कृपया आधी Product select करा."
-    );
-
-    return;
-  }
-
-
-  // CUSTOMER DETAILS
-
-  const name =
-    document.getElementById("name").value.trim();
-
-  const phone =
-    document.getElementById("phone").value.trim();
-
-  const address =
-    document.getElementById("address").value.trim();
-
-  const city =
-    document.getElementById("city").value.trim();
-
-  const pin =
-    document.getElementById("pin").value.trim();
-
-
-  // PHONE VALIDATION
-
-  if (!/^[6-9][0-9]{9}$/.test(phone)) {
-
-    alert(
-      "कृपया योग्य 10 digit mobile number टाका."
-    );
-
-    return;
-  }
-
-
-  // PINCODE VALIDATION
-
-  if (!/^[0-9]{6}$/.test(pin)) {
-
-    alert(
-      "कृपया योग्य 6 digit pincode टाका."
-    );
-
-    return;
-  }
-
-
-  // ORDER ID
-
-  const orderId =
-    generateOrderId();
-
-
-  document.getElementById("orderId").innerText =
-    "Order ID: " + orderId;
-
-
-  // TOTAL
-
-  let total = 0;
-
-  cart.forEach(item => {
-
-    total +=
-      item.price * item.qty;
-
-  });
-
-
-  // PRODUCT MESSAGE
-
-  let productMessage = "";
-
-
-  cart.forEach((item, index) => {
-
-    productMessage +=
-`📦 *Product ${index + 1}:*
-${item.name}
-
-💰 Price: ₹${item.price.toLocaleString("en-IN")}
-🔢 Quantity: ${item.qty}
-💵 Amount: ₹${(item.price * item.qty).toLocaleString("en-IN")}
-
-`;
-
-  });
-
-
-  // WHATSAPP MESSAGE
-
-  const message =
-`🛒 *NEW COD ORDER*
-
-🏪 *Mangalmurti Lights*
-
-🆔 Order ID:
-${orderId}
-
-━━━━━━━━━━━━━━
-
-${productMessage}
-
-━━━━━━━━━━━━━━
-
-💰 *TOTAL COD: ₹${total.toLocaleString("en-IN")}*
-
-💳 Payment:
-*CASH ON DELIVERY*
-
-━━━━━━━━━━━━━━
-
-👤 *CUSTOMER DETAILS*
-
-Name:
-${name}
-
-📱 Mobile:
-${phone}
-
-🏠 Address:
-${address}
-
-🏙️ City:
-${city}
-
-📮 Pincode:
-${pin}
-
-━━━━━━━━━━━━━━
-
-🙏 Thank you for ordering from
-*Mangalmurti Lights*`;
-
-
-
-  // WHATSAPP LINK
-
-  const whatsappURL =
-    "https://wa.me/" +
-    WHATSAPP_NUMBER +
-    "?text=" +
-    encodeURIComponent(message);
-
-
-  // OPEN WHATSAPP
-
-  window.open(
-    whatsappURL,
-    "_blank"
-  );
-
-}
-
-
-// ========================================
-// INITIAL CART
-// ========================================
-
-updateCart();
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
